@@ -11,6 +11,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check for test folder
+        run: |
+          if ! [ -d "test" ]; then
+            echo "No test folder found. Exiting."
+            exit 1
+          fi
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -26,6 +33,5 @@ jobs:
           pip install .[test]
 
       - name: Run unit tests
-        if: exists('test')
         run: |
           python -m unittest discover -s test
